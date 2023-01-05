@@ -6,6 +6,7 @@ const PORT = process.env.PORT || 8080
 
 app.use(express.static('dist'))
 
+// for fly.toml http_checks
 app.get('/health', (req, res) => {
   res.send('ok')
 })

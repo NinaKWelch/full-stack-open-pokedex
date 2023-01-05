@@ -9,6 +9,7 @@ env:
   
 jobs:
   deploy:
+      if: ${{ github.event_name == 'push' }}
       name: Deploy app
       runs-on: ubuntu-latest
       steps:
