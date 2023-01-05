@@ -10,8 +10,7 @@ env:
   
 jobs:
   deploy:
-    if: ${{ github.event_name == 'push' }}
-    if: ${{ github.event.commits && !contains(github.event.commits[0].message, '#skip') }}
+    if: ${{ github.event_name == 'push' && !contains(github.event.commits[0].message, '#skip')}}
     name: Deploy app
     runs-on: ubuntu-latest
     steps:
