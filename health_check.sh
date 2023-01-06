@@ -1,8 +1,6 @@
 #!/bin/bash
 
-# echo "Hello from shell script"
-
-# exit 0 # exit status 0 means that the script "succeeds" and 1 that the script "fails"
+# exit status 0 means that the script "succeeds" and 1 that the script "fails"
 
 response=$(curl --location --request GET "https://winter-flower-5452.fly.dev/health")
 
