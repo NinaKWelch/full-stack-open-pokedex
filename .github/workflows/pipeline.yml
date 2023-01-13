@@ -65,7 +65,7 @@ jobs:
         with:
           severity: info
           text: A new version of Pokedex deployed
-          description: "to https://winter-flower-5452.fly.dev/ by ${{github.context.payload.head_commit.author.name}}"
+          description: "to https://winter-flower-5452.fly.dev/ by ${{ toJSON(github.context.payload.head_commit.author.name) }}"
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
   discord_failure_message:
     needs: [simple_deployment_pipeline, deploy]
@@ -77,5 +77,5 @@ jobs:
         with:
           severity: error
           text: Build failed
-          description: "commit ${{github.context.payload.head_commit.url}} by ${{github.context.payload.head_commit.author.name}} broke the build :)"
+          description: "commit ${{ toJSON(github.context.payload.head_commit.url) }} by ${{ toJSON(github.context.payload.head_commit.author.name) }} broke the build :)"
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
