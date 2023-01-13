@@ -29,29 +29,27 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DEFAULT_BUMP: patch
-    discord_success_message:
+  discord_success_message:
+    needs: deploy
+    if: ${{ success() }}
+    name: Deploy success
+    runs-on: ubuntu-latest
+    steps:
+      - uses: rjstone/discord-webhook-notify@v1
+        with:
+          severity: info
+          text: A new version of Pokedex deployed
+          description: to ${{github.server_url}} by ${{github.triggering_actor}}
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+    discord_failure_message:
       needs: deploy
-      if: ${{ success() }}
-      name: Deploy success
+      if: ${{ failure() }}
+      name: Deploy failure
       runs-on: ubuntu-latest
       steps:
         - uses: rjstone/discord-webhook-notify@v1
           with:
-            severity: info
-            text: A new version of Pokedex deployed
-            description: to ${{github.server_url}} by ${{github.triggering_actor}}
+            severity: error
+            text: Build failed
+            description: commit ${{github.commits[][url]}} by ${{github.triggering_actor}} broke the build :)
             webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
-      discord_failure_message:
-        needs: deploy
-        if: ${{ failure() }}
-        name: Deploy failure
-        runs-on: ubuntu-latest
-        steps:
-          - uses: rjstone/discord-webhook-notify@v1
-            with:
-              severity: error
-              text: Build failed
-              description: commit ${{github.commits[][url]}} by ${{github.triggering_actor}} broke the build :)
-              webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
-
-
